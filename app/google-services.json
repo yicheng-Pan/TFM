@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1089595432567",
+    "project_id": "androidpro-c0b6c",
+    "storage_bucket": "androidpro-c0b6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089595432567:android:94dbaba72938ad70a47072",
+        "android_client_info": {
+          "package_name": "yicheng.pan.tfm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089595432567-uvuhg0j2h9d6ivgqdo6h6evhomftmrnn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTWiDt1kPMlGqgtp_iiNn7KouWm0k0xcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089595432567-uvuhg0j2h9d6ivgqdo6h6evhomftmrnn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
