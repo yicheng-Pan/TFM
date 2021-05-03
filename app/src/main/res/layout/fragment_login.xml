@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_username" />
+
+
+                <EditText
+                    android:id="@+id/auth_Login_username"
+
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+
+                    android:autofillHints=""
+                    android:background="@drawable/shape_edittext_box"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_password" />
+
+                <EditText
+                    android:id="@+id/auth_Login_pass"
+
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+
+                    android:autofillHints=""
+                    android:background="@drawable/shape_edittext_box"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/auth_Login_btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_button_box"
+                android:padding="10dp"
+                android:text="@string/login"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/auth_Login_btn_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_button_box"
+                android:padding="10dp"
+                android:text="@string/register"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
