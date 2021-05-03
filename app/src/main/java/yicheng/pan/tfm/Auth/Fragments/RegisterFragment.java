@@ -5,13 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
-
 import com.google.firebase.auth.FirebaseAuth;
-
-
 import yicheng.pan.tfm.BaseFragment;
+import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.databinding.FragmentRegisterBinding;
 
 
@@ -38,6 +35,12 @@ public class RegisterFragment extends BaseFragment {
             if (!validateForm())
                 return;
             createAccount();
+        });
+        binding.authRegisterBtnReturn.setOnClickListener(v -> {
+
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.auth_fragment_container, LoginFragment.class, null)
+                    .commit();
         });
         return binding.getRoot();
     }
