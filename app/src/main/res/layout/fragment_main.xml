@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Main.Fragments.MainFragment">
+
+
+    <LinearLayout
+        android:id="@+id/main_Top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_username"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_edittext_box" />
+
+        <ImageView
+            android:id="@+id/main_msg"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:src="@drawable/message"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/main_btn_express_send"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/quick_express"
+                android:scaleType="fitXY"
+                android:src="@drawable/express_send" />
+
+            <ImageButton
+                android:id="@+id/main_btn_scan"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@string/scan"
+                android:scaleType="fitXY"
+                android:src="@drawable/scan" />
+
+            <ImageButton
+                android:id="@+id/main_btn_service_site"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@string/service_site"
+                android:scaleType="fitXY"
+                android:src="@drawable/service_site" />
+
+            <ImageButton
+                android:id="@+id/main_btn_address_book"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@string/address_book"
+                android:scaleType="fitXY"
+                android:src="@drawable/address_book" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center"
+                android:text="@string/quick_express"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="@string/scan"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="@string/service_site"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="@string/address_book"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
