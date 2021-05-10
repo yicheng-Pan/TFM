@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Main.MainViewModel;
+import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.databinding.FragmentMainBinding;
 
 
@@ -36,6 +37,11 @@ public class MainFragment extends BaseFragment {
 
         binding = FragmentMainBinding.inflate(inflater, container, false);
 
+        binding.mainBtnAddressBook.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.main_fragment_container, AddressFragment.class, null)
+                    .commit();
+        });
         return binding.getRoot();
     }
 }
