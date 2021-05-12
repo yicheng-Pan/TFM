@@ -11,4 +11,6 @@
     <string name="scan">Scan</string>
     <string name="service_site">Service-Site</string>
     <string name="address_book">Address-book</string>
+    <string name="text_sender_info">Sender-Info</string>
+    <string name="text_receiver_info">Receiver-Info</string>
 </resources>
