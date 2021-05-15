@@ -1,5 +1,6 @@
 package yicheng.pan.tfm.Main.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import yicheng.pan.tfm.BaseFragment;
+import yicheng.pan.tfm.Express.ExpressActivity;
 import yicheng.pan.tfm.Main.MainViewModel;
 import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.databinding.FragmentMainBinding;
@@ -36,6 +38,12 @@ public class MainFragment extends BaseFragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         binding = FragmentMainBinding.inflate(inflater, container, false);
+
+        binding.mainBtnExpressSend.setOnClickListener(v -> {
+            Intent intent = new Intent(this.getActivity(), ExpressActivity.class);
+            intent.putExtra("user", mainViewModel.getUser());
+            startActivity(intent);
+        });
 
         binding.mainBtnAddressBook.setOnClickListener(v -> {
             getParentFragmentManager().beginTransaction()

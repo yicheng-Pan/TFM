@@ -7,7 +7,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/quick_fragment_container"
-        android:name="yicheng.pan.tfm.Auth.Fragments.ExpressMainFragment"
+        android:name="yicheng.pan.tfm.Express.Fragments.ExpressMainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
