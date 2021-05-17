@@ -13,4 +13,5 @@
     <string name="address_book">Address-book</string>
     <string name="text_sender_info">Sender-Info</string>
     <string name="text_receiver_info">Receiver-Info</string>
+    <string name="mailying_way">Mailing-Way</string>
 </resources>
