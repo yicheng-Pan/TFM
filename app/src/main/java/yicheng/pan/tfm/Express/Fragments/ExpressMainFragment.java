@@ -59,6 +59,11 @@ public class ExpressMainFragment extends BaseFragment {
             bottomSheetDialog.show();
         });
 
+        binding.expressMainExpectedTimeValue.setOnClickListener(v -> {
+            showSheetDialog(R.layout.dialog_select_time);
+            bottomSheetDialog.show();
+        });
+
         binding.expressMainReceiverAddressBook.setOnClickListener(v -> {
             is_op_sender = false;
             showSheetDialog(R.layout.dialog_select_address);
@@ -73,9 +78,9 @@ public class ExpressMainFragment extends BaseFragment {
         if (layout == R.layout.dialog_select_address) {
             TextView textView_info = view.findViewById(R.id.dialog_select_address_info);
             if (is_op_sender)
-                textView_info.setText("请选择寄件人地址");
+                textView_info.setText("Sender Address");
             else
-                textView_info.setText("请选择收件人地址");
+                textView_info.setText("Receiver Address");
 
 
             List<HashMap<String, String>> data = new ArrayList<>();
@@ -118,6 +123,32 @@ public class ExpressMainFragment extends BaseFragment {
                 bottomSheetDialog.cancel();
             });
         }
+
+        if (layout == R.layout.dialog_select_time) {
+
+            List<String> data = new ArrayList<>();
+            for (int i = 8; i < 22; i++) {
+                data.add(i + ":00~" + (i + 1) + ":00");
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    data);
+
+            ListView listView = view.findViewById(R.id.dialog_select_time_hour);
+            listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener((parent, view12, position, id) -> {
+                RadioGroup radioGroup = view.findViewById(R.id.dialog_select_time_day);
+                String selected_time = ((RadioButton)
+                        view.findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString()
+                        + "\n" + data.get(position);
+                binding.expressMainExpectedTimeValue.setText(selected_time);
+                bottomSheetDialog.cancel();
+            });
+        }
+
 
         // Common
         bottomSheetDialog = new BottomSheetDialog(requireContext());
