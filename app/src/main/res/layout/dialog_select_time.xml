@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_select_time_info"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/select_time_info"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/black" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:gravity="top"
+        tools:ignore="UselessParent">
+
+        <RadioGroup
+            android:id="@+id/dialog_select_time_day"
+            android:layout_width="100dp"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/dialog_select_time_day_1"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/dialog_select_time_radio_color"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="Tomorrow"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/dialog_select_time_day_2"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/dialog_select_time_radio_color"
+                android:button="@null"
+                android:gravity="center"
+                android:text="The day after tomorrow"
+                android:textSize="20sp" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/dialog_select_time_day"
+            android:background="@color/black" />
+
+        <ListView
+            android:id="@+id/dialog_select_time_hour"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/dialog_select_time_day" />
+
+    </RelativeLayout>
+
+</LinearLayout>
