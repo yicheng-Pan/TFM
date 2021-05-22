@@ -8,10 +8,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.firebase.auth.FirebaseUser;
 
 import yicheng.pan.tfm.R;
+import yicheng.pan.tfm.User;
 
 
 public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         if (getIntent() != null) {
-            FirebaseUser user = getIntent().getParcelableExtra("user");
+            User user = getIntent().getParcelableExtra("user");
             mainViewModel.setUser(user);
         }
     }
