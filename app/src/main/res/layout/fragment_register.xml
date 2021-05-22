@@ -93,7 +93,30 @@
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                >
 
+                <CheckBox
+                    android:id="@+id/cb_users"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Users"
+                    />
+
+                <CheckBox
+                    android:id="@+id/cb_courier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Courier"
+                    />
+
+            </LinearLayout>
             <Button
                 android:id="@+id/auth_Register_btn_register"
                 android:layout_width="wrap_content"

@@ -19,4 +19,12 @@
         <activity android:name=".Main.MainActivity"/>
         <activity android:name=".Express.ExpressActivity" />
     </application>
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyCrHz8LrzyL3HeDB31w1KiPbaSaZAuGYVk" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 </manifest>

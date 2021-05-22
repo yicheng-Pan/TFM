@@ -1,4 +1,6 @@
 package yicheng.pan.tfm.Auth.Fragments;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -6,14 +8,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
+
 import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+
+import java.util.List;
 import java.util.Objects;
+
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Main.MainActivity;
 import yicheng.pan.tfm.R;
+import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentLoginBinding;
 
 
@@ -22,6 +38,7 @@ public class LoginFragment extends BaseFragment {
     private final String TAG = "AUTH_LOGIN";
     private FirebaseAuth mAuth;
     private FragmentLoginBinding binding;
+    private ProgressDialog dialog;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -37,79 +54,95 @@ public class LoginFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentLoginBinding.inflate(inflater, container, false);
 
+        binding = FragmentLoginBinding.inflate(inflater, container, false);
         binding.authLoginBtnLogin.setOnClickListener(v -> {
-            if (!validateForm())
-              return;
             login();
         });
+        dialog = new ProgressDialog(requireActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Loading...");
 
+        binding.authLoginBtnRegister.setOnClickListener(v -> {
 
-        binding.authLoginBtnRegister.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
-                .replace(R.id.auth_fragment_container, RegisterFragment.class, null)
-                .commit());
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.auth_fragment_container, RegisterFragment.class, null)
+                    .commit();
+        });
 
         return binding.getRoot();
     }
 
     private void login() {
+        if (dialog != null) {
+            dialog.show();
+        }
         String email = binding.authLoginUsername.getText().toString();
         String password = binding.authLoginPass.getText().toString();
-        Log.d(TAG, "login:" + email);
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(requireActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "loginWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        assert user != null;
-                        if (!user.isEmailVerified()) {
-                            sendVerified(user, email);
-                        } else {
-                            showToast("Login succeed");
-                            Intent intent = new Intent(this.getActivity(), MainActivity.class);
-                            intent.putExtra("user", user);
-                            startActivity(intent);
-                        }
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "loginWithEmail:failure", Objects.requireNonNull(task.getException()).getCause());
-                        showToast("Authentication failed.");
+        if ("".equals(email)) {
+            showToast("Email cannot be empty");
+            return;
+        }
+
+        if ("".equals(password)) {
+            showToast("Password cannot be empty");
+            return;
+        }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("data").child("user").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+
+                GenericTypeIndicator<List<User>> t = new GenericTypeIndicator<List<User>>() {
+                };
+                List<User> models = snapshot.getValue(t);
+                User user = null;
+
+                if (models == null) {
+                    showToast("The user does not exist");
+                    return;
+                }
+                for (int i = 0; i <models.size() ; i++) {
+                    user=models.get(i);
+                    if (email.equals(user.getName())){
+                        break;
                     }
-                });
-    }
+                }
 
-    private boolean validateForm() {
-        boolean valid = true;
-        EditText editText_email = binding.authLoginUsername;
-        if (TextUtils.isEmpty(editText_email.getText().toString())) {
-            editText_email.setError("Required.");
-            valid = false;
-        } else {
-            editText_email.setError(null);
-        }
+                if (user == null) {
+                    showToast("The user does not exist");
+                    return;
+                }
 
-        EditText editText_pass = binding.authLoginPass;
-        if (TextUtils.isEmpty(editText_pass.getText().toString())) {
-            editText_pass.setError("Required.");
-            valid = false;
-        } else {
-            editText_pass.setError(null);
-        }
-        return valid;
-    }
+                if (!user.getPassword().equals(password)) {
+                    showToast("The password is incorrect");
+                    return;
+                }
 
-    public void sendVerified(FirebaseUser user, String email) {
-        showToast(email + " is not verified!");
-        user.sendEmailVerification().addOnCompleteListener(requireActivity(), task1 -> {
-            if (task1.isSuccessful()) {
-                showToast("Send Verification Email to " + email);
-            } else {
-                showToast("Failed to send Verification Email to " + email);
+                showToast("Login Success");
+                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                requireActivity().finish();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                showToast("Login failed");
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
             }
         });
     }
+
 }

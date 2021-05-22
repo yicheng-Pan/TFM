@@ -60,7 +60,7 @@ public class AddressFragment extends BaseFragment {
                 new int[]{R.id.address_name, R.id.address_phone, R.id.address_address}
         );
 
-        binding.fragmentAddressList.setAdapter(adapter);
+        //binding.fragmentAddressList.setAdapter(adapter);
         return binding.getRoot();
     }
 }
