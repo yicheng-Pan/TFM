@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "806464274087-76e0fk42ccdjkd322cj8dkvgmt3l1tj3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "yicheng.pan.tfm",
-            "certificate_hash": "a5958756eb5576517c8e1101ba8912f8d3f890e0"
-          }
-        },
-        {
           "client_id": "806464274087-a9h7jct0qqp51kslfupatoehv0dramvf.apps.googleusercontent.com",
           "client_type": 3
         }
