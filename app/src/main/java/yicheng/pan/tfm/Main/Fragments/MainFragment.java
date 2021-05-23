@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
+import yicheng.pan.tfm.Address.AddressListActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressActivity;
 import yicheng.pan.tfm.Main.MainViewModel;
@@ -46,9 +47,9 @@ public class MainFragment extends BaseFragment {
         });
 
         binding.mainBtnAddressBook.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.main_fragment_container, AddressFragment.class, null)
-                    .commit();
+            Intent intent = new Intent(this.getActivity(), AddressListActivity.class);
+            intent.putExtra("user", mainViewModel.getUser());
+            startActivity(intent);
         });
         return binding.getRoot();
     }
