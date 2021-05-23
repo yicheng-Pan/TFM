@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    tools:context=".Address.Fragments.AddressListFragment">
 
     <TextView
         android:id="@+id/tv_title"
@@ -40,11 +41,10 @@
     <EditText
         android:id="@+id/et_address"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="100dp"
+        android:gravity="top"
         android:layout_marginTop="8dp"
-        android:focusableInTouchMode="false"
-        android:focusable="false"
-        android:hint="Please select an address"
+        android:hint="Please enter the address"
         />
 
     <EditText

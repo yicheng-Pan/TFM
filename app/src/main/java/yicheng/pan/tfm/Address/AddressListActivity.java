@@ -6,13 +6,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.List;
-
-import yicheng.pan.tfm.Model.AddressModel;
 import yicheng.pan.tfm.R;
 
 
-public class AddAddressActivity extends AppCompatActivity {
+public class AddressListActivity extends AppCompatActivity {
 
     private AddressViewModel addressViewModel;
 
@@ -22,9 +19,9 @@ public class AddAddressActivity extends AppCompatActivity {
         addressViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
         if (getIntent() != null) {
             addressViewModel.setUser(getIntent().getParcelableExtra("user"));
-            addressViewModel.setList((List<AddressModel>) getIntent().getSerializableExtra("list"));
+            addressViewModel.setType(getIntent().getIntExtra("select",0));
         }
 
-        setContentView(R.layout.activity_add_address);
+        setContentView(R.layout.activity_address_list);
     }
 }
