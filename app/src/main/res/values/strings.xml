@@ -16,4 +16,6 @@
     <string name="mailying_way">Mailing-Way</string>
     <string name="expected_time">Expected-Time</string>
     <string name="select_time_info">Expected-Time-Period</string>
+    <string name="add">Add</string>
+    <string name="add_address">Add Address</string>
 </resources>

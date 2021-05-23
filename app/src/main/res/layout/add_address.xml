@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="@string/add_address"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:hint="Please enter your name"
+        />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:inputType="phone"
+        android:hint="Please enter your phone"
+        />
+
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:hint="Please select an address"
+        />
+
+    <EditText
+        android:id="@+id/et_details_address"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:layout_marginTop="8dp"
+        android:hint="Please enter the detailed address"
+        />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_button_box"
+        android:padding="10dp"
+        android:text="@string/add"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+</LinearLayout>
