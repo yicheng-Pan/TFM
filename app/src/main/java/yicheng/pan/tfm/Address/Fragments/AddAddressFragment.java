@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,7 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import chihane.jdaddressselector.BottomDialog;
+import chihane.jdaddressselector.OnAddressSelectedListener;
+import chihane.jdaddressselector.model.City;
+import chihane.jdaddressselector.model.County;
+import chihane.jdaddressselector.model.Province;
+import chihane.jdaddressselector.model.Street;
 import yicheng.pan.tfm.Address.AddressViewModel;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Model.AddressModel;
@@ -24,14 +33,19 @@ import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.AddAddressBinding;
 
 
-public class AddAddressFragment extends BaseFragment {
+public class AddAddressFragment extends BaseFragment implements OnAddressSelectedListener {
 
     public AddAddressFragment(){}
+
     private AddressViewModel addressViewModel;
     private AddAddressBinding binding;
     private List<AddressModel> list=new ArrayList<>();
     private ProgressDialog dialog;
     private BottomDialog bottomDialog;
+    private String county = "";
+    private String province = "";
+    private String city = "";
+    private String street = "";
     private User user;
 
     @Nullable
@@ -90,6 +104,12 @@ public class AddAddressFragment extends BaseFragment {
             addData(user.getUid(), list);
         });
 
+        binding.etAddress.setOnClickListener(view -> {
+            bottomDialog = new BottomDialog(requireActivity());
+            bottomDialog.setOnAddressSelectedListener(this::onAddressSelected);
+            bottomDialog.show();
+        });
+
         return binding.getRoot();
     }
 
@@ -125,5 +145,15 @@ public class AddAddressFragment extends BaseFragment {
         });
     }
 
-
+    @Override
+    public void onAddressSelected(Province province, City city, County county, Street street) {
+        if (bottomDialog != null) {
+            bottomDialog.dismiss();
+        }
+        this.county = county == null ? "" : county.name;
+        this.province = province == null ? "" : province.name;
+        this.city = city == null ? "" : city.name;
+        this.street = street == null ? "" : street.name;
+        binding.etAddress.setText(this.province + this.city + this.county + this.street);
+    }
 }
