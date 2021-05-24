@@ -41,10 +41,11 @@
     <EditText
         android:id="@+id/et_address"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="top"
+        android:layout_height="45dp"
         android:layout_marginTop="8dp"
-        android:hint="Please enter the address"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:hint="Please select an address"
         />
 
     <EditText
