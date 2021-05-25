@@ -11,6 +11,7 @@
         android:theme="@style/Theme.TFM">
         <activity android:name=".Address.AddAddressActivity"/>
         <activity android:name=".Address.AddressListActivity"/>
+        <activity android:name=".Address.UpdateAddressActivity"/>
         <activity android:name=".Auth.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
