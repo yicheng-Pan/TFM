@@ -11,35 +11,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.util.ArrayList;
 import java.util.List;
-
 import chihane.jdaddressselector.BottomDialog;
 import chihane.jdaddressselector.OnAddressSelectedListener;
 import chihane.jdaddressselector.model.City;
 import chihane.jdaddressselector.model.County;
 import chihane.jdaddressselector.model.Province;
 import chihane.jdaddressselector.model.Street;
-import yicheng.pan.tfm.Address.AddressViewModel;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Model.AddressModel;
+import yicheng.pan.tfm.Model.UpdateAddressModel;
 import yicheng.pan.tfm.User;
-import yicheng.pan.tfm.databinding.FragmentAddAddressBinding;
+import yicheng.pan.tfm.databinding.FragmentUpdateAddressBinding;
 
 
-public class AddAddressFragment extends BaseFragment implements OnAddressSelectedListener {
+public class UpdateAddressFragment extends BaseFragment implements OnAddressSelectedListener {
 
-    public AddAddressFragment(){}
+    public UpdateAddressFragment(){
 
-    private AddressViewModel addressViewModel;
-    private FragmentAddAddressBinding binding;
-    private List<AddressModel> list=new ArrayList<>();
+    }
+
+   private UpdateAddressModel updateAddressModel;
+    private FragmentUpdateAddressBinding binding;
+    private List<AddressModel> list;
     private ProgressDialog dialog;
     private BottomDialog bottomDialog;
     private String county = "";
@@ -47,17 +46,18 @@ public class AddAddressFragment extends BaseFragment implements OnAddressSelecte
     private String city = "";
     private String street = "";
     private User user;
+    private int position=0;
+    private AddressModel addressModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        binding = FragmentAddAddressBinding.inflate(inflater, container, false);
-        addressViewModel = new ViewModelProvider(requireActivity()).get(AddressViewModel.class);
-        user = addressViewModel.getUser();
-        if (addressViewModel.getList()!=null){
-            list.addAll(addressViewModel.getList());
-        }
+        binding = FragmentUpdateAddressBinding.inflate(inflater, container, false);
+        updateAddressModel = new ViewModelProvider(requireActivity()).get(UpdateAddressModel.class);
+        user = updateAddressModel.getUser();
+        position=updateAddressModel.getPosition();
+        addressModel=updateAddressModel.getAddressModel();
 
         dialog = new ProgressDialog(requireActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -65,7 +65,14 @@ public class AddAddressFragment extends BaseFragment implements OnAddressSelecte
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Loading...");
 
-        binding.btnAdd.setOnClickListener(view -> {
+        if (addressModel!=null){
+            binding.etName.setText(addressModel.getName());
+            binding.etPhone.setText(addressModel.getPhone());
+            binding.etAddress.setText(addressModel.getAddress());
+            binding.etDetailsAddress.setText(addressModel.getDetailAddress());
+        }
+
+        binding.btnUpdate.setOnClickListener(view -> {
             String name = binding.etName.getText().toString().trim();
             String phone = binding.etPhone.getText().toString().trim();
             String address = binding.etAddress.getText().toString().trim();
@@ -93,15 +100,13 @@ public class AddAddressFragment extends BaseFragment implements OnAddressSelecte
                 dialog.show();
             }
 
-            AddressModel addressModel = new AddressModel();
             addressModel.setId(user.getUid());
             addressModel.setName(name);
             addressModel.setPhone(phone);
             addressModel.setAddress(address);
             addressModel.setDetailAddress(detailsAddress);
-            list.add(addressModel);
 
-            addData(user.getUid(), list);
+            updateData(user.getUid());
         });
 
         binding.etAddress.setOnClickListener(view -> {
@@ -119,21 +124,23 @@ public class AddAddressFragment extends BaseFragment implements OnAddressSelecte
 
     }
 
-    private void addData(String uid, List<AddressModel> list) {
+    private void updateData(String uid) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        DatabaseReference dataBaseRef = myRef.child("data").child(uid).child("address");
-        dataBaseRef.setValue(list);
+        DatabaseReference dataBaseRef = myRef.child("data").child(uid).child("address").child(""+position);
+        dataBaseRef.setValue(addressModel);
         dataBaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
                 }
+
                 if (isAdded()){
                     requireActivity().setResult(200);
                     requireActivity().finish();
                 }
+
             }
 
             @Override

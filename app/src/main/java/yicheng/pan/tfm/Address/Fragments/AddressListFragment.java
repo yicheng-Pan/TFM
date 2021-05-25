@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +17,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
@@ -29,6 +27,7 @@ import java.util.List;
 import yicheng.pan.tfm.Adapter.AddressAdapter;
 import yicheng.pan.tfm.Address.AddAddressActivity;
 import yicheng.pan.tfm.Address.AddressViewModel;
+import yicheng.pan.tfm.Address.UpdateAddressActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Model.AddressModel;
 import yicheng.pan.tfm.User;
@@ -70,18 +69,21 @@ public class AddressListFragment extends BaseFragment {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Loading...");
         dialog.show();
-        adapter = new AddressAdapter(requireContext(), new AddressAdapter.OnItemClickListner() {
-            @Override
-            public void itemClick(int position) {
-                if (select == 1) {
-                    AddressModel addressModel = list.get(position);
-                    String data = "Name：" + addressModel.getName() + "\nNumber：" + addressModel.getPhone() + "\nAddress：" + addressModel.getAddress() + addressModel.getDetailAddress();
-                    Intent intent = new Intent();
-                    intent.putExtra("address", data);
-                    requireActivity().setResult(200, intent);
-                    requireActivity().finish();
+        adapter = new AddressAdapter(requireContext(), position -> {
+            if (select == 1) {
+                AddressModel addressModel = list.get(position);
+                String data = "Name：" + addressModel.getName() + "\nNumber：" + addressModel.getPhone() + "\nAddress：" + addressModel.getAddress() + addressModel.getDetailAddress();
+                Intent intent = new Intent();
+                intent.putExtra("address", data);
+                requireActivity().setResult(200, intent);
+                requireActivity().finish();
 
-                }
+            } else {
+                Intent intent = new Intent(requireActivity(), UpdateAddressActivity.class);
+                intent.putExtra("position", position);
+                intent.putExtra("addressModel", list.get(position));
+                intent.putExtra("user", user);
+                startActivity(intent);
             }
         });
         binding.fragmentAddressList.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -127,7 +129,6 @@ public class AddressListFragment extends BaseFragment {
 
         return binding.getRoot();
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

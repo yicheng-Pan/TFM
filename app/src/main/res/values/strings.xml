@@ -18,4 +18,6 @@
     <string name="select_time_info">Expected-Time-Period</string>
     <string name="add">Add</string>
     <string name="add_address">Add Address</string>
+    <string name="update_address">Update Address</string>
+    <string name="update">Update</string>
 </resources>
