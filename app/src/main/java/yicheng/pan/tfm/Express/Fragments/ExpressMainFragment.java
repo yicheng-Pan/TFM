@@ -5,14 +5,23 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
+import com.bigkoo.pickerview.view.TimePickerView;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import yicheng.pan.tfm.Address.AddressListActivity;
 import yicheng.pan.tfm.BaseFragment;
@@ -29,6 +38,8 @@ public class ExpressMainFragment extends BaseFragment {
     private ProgressDialog dialog;
     private List<ExpressModel> expressList = new ArrayList<>();
     private String typeStr = "";
+    private TimePickerView timePickerView;
+
 
 
     @Nullable
@@ -72,7 +83,67 @@ public class ExpressMainFragment extends BaseFragment {
                     break;
             }
         });
+
+        //选择时间
+        binding.expressMainExpectedTimeValue.setOnClickListener(view -> {
+            timePickerView.show();
+        });
+
+        initTime();
         return binding.getRoot();
+    }
+
+    /**
+     * 初始化日期选择控件
+     */
+    private void initTime() {
+        timePickerView = new TimePickerBuilder(requireActivity(), (date, v) -> {
+            binding.expressMainExpectedTimeValue.setText(getTime(date));
+
+        })
+                .setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
+                    @Override
+                    public void onTimeSelectChanged(Date date) {
+                        Log.i("pvTime", "onTimeSelectChanged");
+                    }
+                })
+                .setLineSpacingMultiplier(2.5f)
+                .setType(new boolean[]{true, true, true, true, true, false})
+                .setLabel("", "", "", "h", "m", "s")
+                .setSubmitText("Confirm")
+                .setCancelText("Cancel")
+                .isDialog(true)
+                .addOnCancelClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.i("pvTime", "onCancelClickListener");
+                    }
+                })
+                .build();
+
+        Dialog mDialog = timePickerView.getDialog();
+        if (mDialog != null) {
+
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    Gravity.BOTTOM);
+            params.leftMargin = 0;
+            params.rightMargin = 0;
+            timePickerView.getDialogContainerLayout().setLayoutParams(params);
+            Window dialogWindow = mDialog.getWindow();
+            if (dialogWindow != null) {
+                dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);
+                dialogWindow.setGravity(Gravity.BOTTOM);
+                dialogWindow.setDimAmount(0.1f);
+            }
+        }
+
+    }
+
+    private String getTime(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return format.format(date);
     }
 
     protected int getPeekHeight() {
