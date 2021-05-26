@@ -3,16 +3,12 @@ package yicheng.pan.tfm.Auth.Fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
-
 import androidx.annotation.NonNull;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-
 
 import java.util.List;
 import java.util.Objects;
@@ -53,8 +48,11 @@ public class LoginFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
 
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+
+
         binding.authLoginBtnLogin.setOnClickListener(v -> {
             login();
         });
@@ -109,11 +107,16 @@ public class LoginFragment extends BaseFragment {
                     showToast("The user does not exist");
                     return;
                 }
-                for (int i = 0; i <models.size() ; i++) {
-                    user=models.get(i);
-                    if (email.equals(user.getName())){
+                boolean flag = false;
+                for (int i = 0; i < models.size(); i++) {
+                    user = models.get(i);
+                    if (email.equals(user.getName())) {
+                        flag = true;
                         break;
                     }
+                }
+                if (!flag) {
+                    user = null;
                 }
 
                 if (user == null) {
@@ -143,5 +146,4 @@ public class LoginFragment extends BaseFragment {
             }
         });
     }
-
 }

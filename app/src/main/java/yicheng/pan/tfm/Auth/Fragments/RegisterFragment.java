@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+
 import androidx.annotation.NonNull;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -92,9 +94,6 @@ public class RegisterFragment extends BaseFragment {
         return binding.getRoot();
     }
 
-    /**
-     * 添加用户
-     */
     private void addUser() {
         String email = binding.authRegisterUsername.getText().toString();
         String password = binding.authRegisterPass.getText().toString();
@@ -107,6 +106,14 @@ public class RegisterFragment extends BaseFragment {
         if ("".equals(password)) {
             showToast("Password cannot be empty");
             return;
+        }
+
+        for (int i = 0; i <list.size() ; i++) {
+            User user = list.get(i);
+            if (email.equals(user.getName())){
+                showToast("The user already exists");
+                return;
+            }
         }
 
         if (dialog != null) {
@@ -146,9 +153,6 @@ public class RegisterFragment extends BaseFragment {
         });
     }
 
-    /**
-     * 获取全部的用户
-     */
     private void getUserList() {
         if (dialog != null) {
             dialog.show();
@@ -184,43 +188,5 @@ public class RegisterFragment extends BaseFragment {
         });
     }
 
-    private void createAccount() {
-        String email = binding.authRegisterUsername.getText().toString();
-        String password = binding.authRegisterPass.getText().toString();
-        Log.d(TAG, "createAccount:" + email);
-
-        if (dialog != null) {
-            dialog.show();
-        }
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(requireActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success");
-                        if (dialog != null && dialog.isShowing()) {
-                            dialog.dismiss();
-                        }
-                        getParentFragmentManager().beginTransaction()
-                                .replace(R.id.auth_fragment_container, LoginFragment.class, null)
-                                .commit();
-                        showToast("createUserWithEmail:success");
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        if (dialog != null && dialog.isShowing()) {
-                            dialog.dismiss();
-                        }
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        showToast("Authentication failed.");
-                    }
-                });
-    }
-
-
-    private boolean validateForm() {
-        // TODO: complete the logic of validate
-
-        return true;
-    }
 
 }
