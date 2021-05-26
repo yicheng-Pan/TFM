@@ -18,6 +18,7 @@ import yicheng.pan.tfm.Address.AddressListActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressViewModel;
 import yicheng.pan.tfm.Model.ExpressModel;
+import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentExpressMainBinding;
 
@@ -27,6 +28,8 @@ public class ExpressMainFragment extends BaseFragment {
     private ExpressModel expressModel;
     private ProgressDialog dialog;
     private List<ExpressModel> expressList = new ArrayList<>();
+    private String typeStr = "";
+
 
     @Nullable
     @Override
@@ -56,6 +59,18 @@ public class ExpressMainFragment extends BaseFragment {
             intent1.putExtra("select", 1);
             intent1.putExtra("user", user);
             startActivityForResult(intent1, 99);
+        });
+       //选择寄件方式
+        binding.expressMainMailingWayValue.setOnCheckedChangeListener((radioGroup, i) -> {
+            switch (i) {
+                case R.id.express_main_mailing_way_value_home: //上门取件
+                    typeStr = "Home Access";
+                    break;
+
+                case R.id.express_main_mailing_way_value_site:  //寄件
+                    typeStr = "Site";
+                    break;
+            }
         });
         return binding.getRoot();
     }
