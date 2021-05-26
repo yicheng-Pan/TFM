@@ -2,6 +2,7 @@ package yicheng.pan.tfm.Express;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,10 +13,9 @@ public class ExpressActivity extends AppCompatActivity {
     private ExpressViewModel expressViewModel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         expressViewModel = new ViewModelProvider(this).get(ExpressViewModel.class);
-
         if (getIntent() != null) {
             expressViewModel.setUser(getIntent().getParcelableExtra("user"));
         }

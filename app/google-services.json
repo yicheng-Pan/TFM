@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "806464274087",
-    "firebase_url": "https://fir-auth-8d633.firebaseio.com",
-    "project_id": "fir-auth-8d633",
-    "storage_bucket": "fir-auth-8d633.appspot.com"
+    "project_number": "745858154971",
+    "firebase_url": "https://auth-722bf-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "auth-722bf",
+    "storage_bucket": "auth-722bf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:806464274087:android:c0597875bc9ba179f8e582",
+        "mobilesdk_app_id": "1:745858154971:android:8f807a27318f6ca94827fe",
         "android_client_info": {
           "package_name": "yicheng.pan.tfm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "806464274087-a9h7jct0qqp51kslfupatoehv0dramvf.apps.googleusercontent.com",
+          "client_id": "745858154971-ku8raeedlpnuat0esetkko9o4gt2h7s4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC6-5cEl9xjQWWkvwnW2D8HoaDQVQDOY64"
+          "current_key": "AIzaSyAjmYDxudA_koRK3nCchs0d1bId9Xquq28"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "806464274087-a9h7jct0qqp51kslfupatoehv0dramvf.apps.googleusercontent.com",
+              "client_id": "745858154971-ku8raeedlpnuat0esetkko9o4gt2h7s4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

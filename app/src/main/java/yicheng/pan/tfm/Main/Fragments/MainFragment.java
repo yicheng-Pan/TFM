@@ -14,6 +14,7 @@ import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressActivity;
 import yicheng.pan.tfm.Main.MainViewModel;
 import yicheng.pan.tfm.R;
+import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentMainBinding;
 
 
@@ -41,7 +42,8 @@ public class MainFragment extends BaseFragment {
         binding = FragmentMainBinding.inflate(inflater, container, false);
 
         binding.mainBtnExpressSend.setOnClickListener(v -> {
-            Intent intent = new Intent(this.getActivity(), ExpressActivity.class);
+             User user = mainViewModel.getUser();
+            Intent intent= new Intent(this.getActivity(), ExpressActivity.class);
             intent.putExtra("user", mainViewModel.getUser());
             startActivity(intent);
         });
