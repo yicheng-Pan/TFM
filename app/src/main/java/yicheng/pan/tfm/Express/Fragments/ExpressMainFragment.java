@@ -19,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +41,7 @@ public class ExpressMainFragment extends BaseFragment {
     private List<ExpressModel> expressList = new ArrayList<>();
     private String typeStr = "";
     private TimePickerView timePickerView;
+    private BottomSheetDialog bottomSheetDialog;
 
 
 
@@ -88,10 +91,17 @@ public class ExpressMainFragment extends BaseFragment {
         binding.expressMainExpectedTimeValue.setOnClickListener(view -> {
             timePickerView.show();
         });
-
+        //选择物品
+        binding.expressMainGoodInfoValue.setOnClickListener(view -> {
+            bottomSheetDialog.show();
+        });
+        View view = View.inflate(requireActivity(), R.layout.dialog_artical_detail, null);
+        bottomSheetDialog = new BottomSheetDialog(requireActivity());
+        bottomSheetDialog.setContentView(view);
         initTime();
         return binding.getRoot();
     }
+
 
     /**
      * 初始化日期选择控件

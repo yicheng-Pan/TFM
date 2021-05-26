@@ -20,4 +20,7 @@
     <string name="add_address">Add Address</string>
     <string name="update_address">Update Address</string>
     <string name="update">Update</string>
+    <string name="good_info">Good-Information</string>
+    <string name="good_detail_info">Good-Detail</string>
+    <string name="confirm">Confirm</string>
 </resources>
