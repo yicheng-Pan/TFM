@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,6 +45,9 @@ public class ExpressMainFragment extends BaseFragment {
     private String typeStr = "";
     private TimePickerView timePickerView;
     private BottomSheetDialog bottomSheetDialog;
+
+    private int weight = 0;
+    private double price = 0.00;
 
 
 
@@ -95,9 +101,41 @@ public class ExpressMainFragment extends BaseFragment {
         binding.expressMainGoodInfoValue.setOnClickListener(view -> {
             bottomSheetDialog.show();
         });
+
         View view = View.inflate(requireActivity(), R.layout.dialog_artical_detail, null);
         bottomSheetDialog = new BottomSheetDialog(requireActivity());
         bottomSheetDialog.setContentView(view);
+
+
+        //计算重量
+        EditText et_weight = view.findViewById(R.id.et_weight);
+        EditText et_article_detail_name = view.findViewById(R.id.et_article_detail_name);
+        TextView tv_price = view.findViewById(R.id.tv_price);
+        view.findViewById(R.id.tv_add).setOnClickListener(view1 -> {
+            weight++;
+            price = weight * 5;
+            et_weight.setText(weight + "");
+            tv_price.setText("￥：" + price);
+        });
+
+        view.findViewById(R.id.tv_remove).setOnClickListener(view1 -> {
+            if (weight > 0) {
+                weight--;
+            }
+            price = weight * 5;
+            tv_price.setText("￥：" + price);
+            et_weight.setText(weight + "");
+        });
+
+        view.findViewById(R.id.btn_article_detail_confirm).setOnClickListener(view1 -> {
+            bottomSheetDialog.dismiss();
+            String name = et_article_detail_name.getText().toString().trim();
+            String etWeight = et_weight.getText().toString().trim();
+            binding.expressMainGoodInfoValue.setText(name + "    " + etWeight + "KG");
+        });
+
+
+
         initTime();
         return binding.getRoot();
     }
