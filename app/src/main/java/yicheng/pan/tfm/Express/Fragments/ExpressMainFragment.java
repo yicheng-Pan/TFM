@@ -43,6 +43,7 @@ public class ExpressMainFragment extends BaseFragment {
     private ProgressDialog dialog;
     private List<ExpressModel> expressList = new ArrayList<>();
     private String typeStr = "";
+    private String payType = "";
     private TimePickerView timePickerView;
     private BottomSheetDialog bottomSheetDialog;
 
@@ -92,6 +93,19 @@ public class ExpressMainFragment extends BaseFragment {
                     break;
             }
         });
+      //选择付款方式
+        binding.rgPay.setOnCheckedChangeListener((radioGroup,i)->{
+            switch (i) {
+                case R.id.rb_pay_online: //马上付
+                    payType = "Pay Online";
+                    break;
+
+                case R.id.rb_pay:  //到付
+                    payType = "Collect";
+                    break;
+            }
+        });
+
 
         //选择时间
         binding.expressMainExpectedTimeValue.setOnClickListener(view -> {
