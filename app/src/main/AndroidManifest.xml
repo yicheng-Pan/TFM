@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main.MainActivity"/>
+        <activity android:name=".Express.ExpressDetailsActivity"/>
         <activity android:name=".Express.ExpressActivity" />
     </application>
     <meta-data

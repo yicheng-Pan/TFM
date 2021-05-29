@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
@@ -37,11 +36,13 @@ import java.util.Date;
 import java.util.List;
 import yicheng.pan.tfm.Address.AddressListActivity;
 import yicheng.pan.tfm.BaseFragment;
+import yicheng.pan.tfm.Express.ExpressDetailsActivity;
 import yicheng.pan.tfm.Express.ExpressViewModel;
 import yicheng.pan.tfm.Model.ExpressModel;
 import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentExpressMainBinding;
+
 
 public class ExpressMainFragment extends BaseFragment {
     private ExpressViewModel expressViewModel;
@@ -66,7 +67,7 @@ public class ExpressMainFragment extends BaseFragment {
 
         expressViewModel = new ViewModelProvider(requireActivity()).get(ExpressViewModel.class);
         User user = expressViewModel.getUser();
-        binding = FragmentExpressMainBinding.inflate(inflater, container, false);
+        binding = yicheng.pan.tfm.databinding.FragmentExpressMainBinding.inflate(inflater, container, false);
 
         dialog = new ProgressDialog(requireActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -157,7 +158,27 @@ public class ExpressMainFragment extends BaseFragment {
             String senderInfo = binding.expressMainSenderPlaceHolder.getText().toString().trim();
             String addresseeInfo = binding.expressMainReceiverPlaceHolder.getText().toString().trim();
             String dateTime = binding.expressMainExpectedTimeValue.getText().toString().trim();
+            String goodsInfo = binding.expressMainGoodInfoValue.getText().toString().trim();
             String goodsName = et_article_detail_name.getText().toString();
+            if (equals(senderInfo)) {
+                Toast.makeText(requireActivity(), "Sender info can not be null ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (equals(addresseeInfo)) {
+                Toast.makeText(requireActivity(), "Receiver info can not be null", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (equals(dateTime)) {
+                Toast.makeText(requireActivity(), "Expeceted Time can not be null", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (equals(goodsInfo)) {
+                Toast.makeText(requireActivity(), "Goods info can not be null", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            expressModel=new ExpressModel();
             expressModel.setSenderInfo(senderInfo);
             expressModel.setAddresseeInfo(addresseeInfo);
             expressModel.setSenderType(typeStr);
@@ -186,6 +207,13 @@ public class ExpressMainFragment extends BaseFragment {
                     if (dialog != null && dialog.isShowing()) {
                         dialog.dismiss();
                     }
+
+                    //跳转到详情页
+                    Intent intent = new Intent(requireActivity(), ExpressDetailsActivity.class);
+                    intent.putExtra("expressModel", expressModel);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                    requireActivity().finish();
                 }
 
                 @Override
