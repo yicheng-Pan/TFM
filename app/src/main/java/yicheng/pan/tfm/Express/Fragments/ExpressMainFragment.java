@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,12 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +59,7 @@ public class ExpressMainFragment extends BaseFragment {
 
 
 
+    @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,13 +116,9 @@ public class ExpressMainFragment extends BaseFragment {
 
 
         //选择时间
-        binding.expressMainExpectedTimeValue.setOnClickListener(view -> {
-            timePickerView.show();
-        });
+        binding.expressMainExpectedTimeValue.setOnClickListener(view -> timePickerView.show());
         //选择物品
-        binding.expressMainGoodInfoValue.setOnClickListener(view -> {
-            bottomSheetDialog.show();
-        });
+        binding.expressMainGoodInfoValue.setOnClickListener(view -> bottomSheetDialog.show());
 
         View view = View.inflate(requireActivity(), R.layout.dialog_artical_detail, null);
         bottomSheetDialog = new BottomSheetDialog(requireActivity());
@@ -148,10 +152,89 @@ public class ExpressMainFragment extends BaseFragment {
             binding.expressMainGoodInfoValue.setText(name + "    " + etWeight + "KG");
         });
 
+       //点击提交
+        binding.expressMainSubmit.setOnClickListener(view1 -> {
+            String senderInfo = binding.expressMainSenderPlaceHolder.getText().toString().trim();
+            String addresseeInfo = binding.expressMainReceiverPlaceHolder.getText().toString().trim();
+            String dateTime = binding.expressMainExpectedTimeValue.getText().toString().trim();
+            String goodsName = et_article_detail_name.getText().toString();
+            expressModel.setSenderInfo(senderInfo);
+            expressModel.setAddresseeInfo(addresseeInfo);
+            expressModel.setSenderType(typeStr);
+            expressModel.setDateTime(dateTime);
+            expressModel.setPayType(payType);
+            expressModel.setGoodsName(goodsName);
+            expressModel.setGoodsWeight(weight);
+            expressModel.setPrice(price);
+            String strRand = "";
+            for (int i = 0; i < 8; i++) {
+                strRand += String.valueOf((int) (Math.random() * 10));
+            }
+
+            expressModel.setExpressId(strRand);
+            expressModel.setUid(user.getUid());
+            expressList.add(expressModel);
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference();
+            DatabaseReference dataBaseRef = myRef.child("data").child("express");
+            dataBaseRef.setValue(expressList);
+            dataBaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    //添加到数据库成功
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+                }
+            });
+        });
 
 
         initTime();
+        getExpressList();
         return binding.getRoot();
+    }
+
+    //获取全部的订单
+
+    private void getExpressList() {
+        if (dialog != null) {
+            dialog.show();
+        }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        DatabaseReference dataBaseRef = myRef.child("data").child("express");
+        dataBaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                GenericTypeIndicator<List<ExpressModel>> t = new GenericTypeIndicator<List<ExpressModel>>() {
+                };
+                List<ExpressModel> models = snapshot.getValue(t);
+                if (models != null && models.size() > 0) {
+                    expressList.clear();
+                    expressList.addAll(models);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 
 
@@ -159,28 +242,15 @@ public class ExpressMainFragment extends BaseFragment {
      * 初始化日期选择控件
      */
     private void initTime() {
-        timePickerView = new TimePickerBuilder(requireActivity(), (date, v) -> {
-            binding.expressMainExpectedTimeValue.setText(getTime(date));
-
-        })
-                .setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
-                    @Override
-                    public void onTimeSelectChanged(Date date) {
-                        Log.i("pvTime", "onTimeSelectChanged");
-                    }
-                })
+        timePickerView = new TimePickerBuilder(requireActivity(), (date, v) -> binding.expressMainExpectedTimeValue.setText(getTime(date)))
+                .setTimeSelectChangeListener(date -> Log.i("pvTime", "onTimeSelectChanged"))
                 .setLineSpacingMultiplier(2.5f)
                 .setType(new boolean[]{true, true, true, true, true, false})
                 .setLabel("", "", "", "h", "m", "s")
                 .setSubmitText("Confirm")
                 .setCancelText("Cancel")
                 .isDialog(true)
-                .addOnCancelClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.i("pvTime", "onCancelClickListener");
-                    }
-                })
+                .addOnCancelClickListener(view -> Log.i("pvTime", "onCancelClickListener"))
                 .build();
 
         Dialog mDialog = timePickerView.getDialog();
@@ -203,8 +273,9 @@ public class ExpressMainFragment extends BaseFragment {
 
     }
 
+
     private String getTime(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return format.format(date);
     }
 

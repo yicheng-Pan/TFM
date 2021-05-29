@@ -24,4 +24,5 @@
     <string name="good_detail_info">Good-Detail</string>
     <string name="confirm">Confirm</string>
     <string name="pay_method">Pay-Method</string>
+    <string name="order">Order</string>
 </resources>

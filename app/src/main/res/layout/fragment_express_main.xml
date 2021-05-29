@@ -343,10 +343,20 @@
                 android:layout_marginStart="20dp"
                 android:background="@drawable/shape_edittext_box"
                 android:text="Collect" />
-
         </RadioGroup>
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
 
+    <Button
+        android:id="@+id/express_main_submit"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/order" />
 
 
 </LinearLayout>
