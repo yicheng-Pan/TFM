@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#FF6C6C6C</color>
     <color name="red">#FFCA353A</color>
+    <color name="scan_corner_color">#0effc2</color>
 </resources>
