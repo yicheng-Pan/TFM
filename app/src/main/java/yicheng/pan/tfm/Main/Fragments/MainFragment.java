@@ -13,6 +13,7 @@ import yicheng.pan.tfm.Address.AddressListActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressActivity;
 import yicheng.pan.tfm.Main.MainViewModel;
+import yicheng.pan.tfm.Order.OrderListActivity;
 import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.Scan.QrcActivity;
 import yicheng.pan.tfm.User;
@@ -57,6 +58,15 @@ public class MainFragment extends BaseFragment {
         binding.mainBtnScan.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), QrcActivity.class);
             startActivityForResult(intent,100);
+        });
+
+        //我的订单
+        binding.mainBtnCart.setOnClickListener(view -> {
+            User user = mainViewModel.getUser();
+            Intent intent = new Intent(this.getActivity(), OrderListActivity.class);
+            intent.putExtra("user", mainViewModel.getUser());
+            startActivity(intent);
+
         });
         return binding.getRoot();
     }
