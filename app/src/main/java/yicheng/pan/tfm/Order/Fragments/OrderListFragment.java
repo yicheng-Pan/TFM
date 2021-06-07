@@ -26,6 +26,7 @@ import java.util.List;
 import yicheng.pan.tfm.Adapter.OrderListAdapter;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Model.ExpressModel;
+import yicheng.pan.tfm.Order.OrderDetailsActivity;
 import yicheng.pan.tfm.Order.OrderViewModel;
 import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentOrderListBinding;
@@ -53,9 +54,23 @@ public class OrderListFragment extends BaseFragment {
         dialog.setMessage("Loading...");
         dialog.show();
 
+        binding.fragmentOrderList.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        orderListAdapter = new OrderListAdapter(requireContext(), position -> {
+            ExpressModel expressModel = list.get(position);
+            //点击跳转到详情
+            //跳转到详情页
+            Intent intent = new Intent(requireActivity(), OrderDetailsActivity.class);
+            intent.putExtra("expressModel", expressModel);
+            intent.putExtra("user", user);
+            startActivity(intent);
+
+        });
+
+        binding.fragmentOrderList.setAdapter(orderListAdapter);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        DatabaseReference dataBaseRef = myRef.child("data").child("order");
+        DatabaseReference dataBaseRef = myRef.child("data").child("express");
 
         dataBaseRef.addValueEventListener(new ValueEventListener() {
             @Override
