@@ -2,6 +2,7 @@ package yicheng.pan.tfm.Express.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.view.Window;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressViewModel;
 import yicheng.pan.tfm.Model.ExpressModel;
@@ -37,9 +41,12 @@ public class ExpressDetailsFragment extends BaseFragment {
         User user = expressViewModel.getUser();
         expressModel = expressViewModel.getExpressModel();
         binding = DialogExpressDetailsBinding.inflate(inflater, container, false);
+        Bitmap mBitmap = CodeUtils.createImage(expressModel.getExpressId(), 400, 400, null);
+        binding.ivQrc.setImageBitmap(mBitmap);
         binding.tvGoodsName.setText("Goods-Name：" + expressModel.getGoodsName());
         binding.tvOrderNo.setText("Express-Barcode：" + expressModel.getExpressId());
-        binding.tvReceiveInfo.setText(expressModel.getAddresseeInfo());
+        binding.tvSenderInfo.setText("Sender: "+expressModel.getSenderInfo());
+        binding.tvReceiveInfo.setText("Receiver: "+expressModel.getAddresseeInfo());
         return binding.getRoot();
     }
     @Override
