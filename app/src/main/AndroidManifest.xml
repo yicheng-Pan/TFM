@@ -23,6 +23,8 @@
         <activity android:name=".Express.ExpressDetailsActivity"/>
         <activity android:name=".Express.ExpressActivity" />
         <activity android:name=".Scan.QrcActivity" />
+        <activity android:name=".Order.OrderListActivity"/>
+        <activity android:name=".Order.OrderDetailsActivity"/>
     </application>
     <meta-data
         android:name="com.google.android.geo.API_KEY"

@@ -34,7 +34,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/main_menu_bar"
+        android:id="@+id/main_menu_bar2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="vertical">
@@ -120,6 +120,42 @@
                 android:textColor="@color/black" />
 
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/main_menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/main_btn_cart"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/quick_express"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/ic_menu_myplaces" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center"
+                android:text="@string/cart"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
