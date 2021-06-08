@@ -21,6 +21,7 @@
             tools:ignore="ContentDescription" />
 
         <androidx.appcompat.widget.SearchView
+            android:id="@+id/sv_search"
             android:layout_width="280dp"
             android:layout_height="60dp"
             android:background="@drawable/shape_edittext_box" />
