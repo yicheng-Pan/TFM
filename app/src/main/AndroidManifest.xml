@@ -25,6 +25,7 @@
         <activity android:name=".Scan.QrcActivity" />
         <activity android:name=".Order.OrderListActivity"/>
         <activity android:name=".Order.OrderDetailsActivity"/>
+        <activity android:name=".Order.SearchOrderActivity"/>
     </application>
     <meta-data
         android:name="com.google.android.geo.API_KEY"

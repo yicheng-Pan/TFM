@@ -14,7 +14,7 @@ import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressActivity;
 import yicheng.pan.tfm.Main.MainViewModel;
 import yicheng.pan.tfm.Order.OrderListActivity;
-import yicheng.pan.tfm.R;
+import yicheng.pan.tfm.Order.SearchOrderActivity;
 import yicheng.pan.tfm.Scan.QrcActivity;
 import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentMainBinding;
@@ -67,6 +67,13 @@ public class MainFragment extends BaseFragment {
             intent.putExtra("user", mainViewModel.getUser());
             startActivity(intent);
 
+        });
+
+        //查询订单
+        binding.svSearch.setOnClickListener(view -> {
+            Intent intent = new Intent(this.getActivity(), SearchOrderActivity.class);
+            intent.putExtra("user", mainViewModel.getUser());
+            startActivity(intent);
         });
         return binding.getRoot();
     }
