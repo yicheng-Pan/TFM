@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 import yicheng.pan.tfm.BaseFragment;
+import yicheng.pan.tfm.Main.CourierMainActivity;
 import yicheng.pan.tfm.Main.MainActivity;
 import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.User;
@@ -130,7 +131,12 @@ public class LoginFragment extends BaseFragment {
                 }
 
                 showToast("Login Success");
-                Intent intent = new Intent(requireActivity(), MainActivity.class);
+                Intent intent=null;
+                if (user.getIsCourier()==0){
+                    intent = new Intent(requireActivity(), MainActivity.class);
+                }else {
+                    intent = new Intent(requireActivity(), CourierMainActivity.class);
+                }
                 intent.putExtra("user", user);
                 startActivity(intent);
                 requireActivity().finish();
