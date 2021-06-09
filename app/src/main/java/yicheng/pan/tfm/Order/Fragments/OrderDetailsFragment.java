@@ -13,6 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.io.Serializable;
@@ -98,11 +104,48 @@ public class OrderDetailsFragment extends BaseFragment {
 
         return binding.getRoot();
     }
+    /**
+     * 获取该订单的送货地址
+     */
+    private void getLocationData() {
+        if (dialog != null) {
+            dialog.show();
+        }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        DatabaseReference dataBaseRef = myRef.child("data").child("location").child(expressModel.getExpressId());
+
+        dataBaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                GenericTypeIndicator<List<GoodsLocationModel>> t = new GenericTypeIndicator<List<GoodsLocationModel>>() {
+                };
+                List<GoodsLocationModel> models = snapshot.getValue(t);
+                if (models == null) {
+                    return;
+                }
+                list.clear();
+                list.addAll(models);
+                adapter.addData(list);
+                orderViewModel.setList(list);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        getLocationData();
     }
 
     @Override
