@@ -28,6 +28,7 @@
         <activity android:name=".Order.OrderDetailsActivity"/>
         <activity android:name=".Order.SearchOrderActivity"/>
         <activity android:name=".Order.NotReceiveOrderListActivity"/>
+        <activity android:name=".Order.CourierOrderListActivity"/>
     </application>
     <meta-data
         android:name="com.google.android.geo.API_KEY"

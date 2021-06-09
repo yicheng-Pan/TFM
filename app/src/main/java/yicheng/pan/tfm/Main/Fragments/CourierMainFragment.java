@@ -27,6 +27,7 @@ import java.util.List;
 
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Main.MainViewModel;
+import yicheng.pan.tfm.Order.CourierOrderListActivity;
 import yicheng.pan.tfm.Order.NotReceiveOrderListActivity;
 import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentCourierMainBinding;
@@ -62,9 +63,18 @@ public class CourierMainFragment extends BaseFragment {
         dialog.setCanceledOnTouchOutside(false);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Loading...");
+        //订单接收
         binding.mainBtnExpressSend.setOnClickListener(v -> {
             User user = mainViewModel.getUser();
             Intent intent = new Intent(this.getActivity(), NotReceiveOrderListActivity.class);
+            intent.putExtra("user", mainViewModel.getUser());
+            startActivity(intent);
+
+        });
+
+        //我的订单
+        binding.mainBtnOrder.setOnClickListener(view -> {
+            Intent intent = new Intent(this.getActivity(), CourierOrderListActivity.class);
             intent.putExtra("user", mainViewModel.getUser());
             startActivity(intent);
 
