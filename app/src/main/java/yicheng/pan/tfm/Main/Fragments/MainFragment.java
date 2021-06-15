@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
 import yicheng.pan.tfm.Address.AddressListActivity;
+import yicheng.pan.tfm.Auth.AuthActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressActivity;
 import yicheng.pan.tfm.Main.MainViewModel;
@@ -58,6 +60,20 @@ public class MainFragment extends BaseFragment {
         binding.mainBtnScan.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), QrcActivity.class);
             startActivityForResult(intent,100);
+        });
+
+        binding.ivLogout.setOnClickListener(view -> {
+            AlertDialog.Builder alertdialogbuilder = new AlertDialog.Builder(requireActivity());
+            alertdialogbuilder.setMessage("Are you sure you want to log out?");
+            alertdialogbuilder.setPositiveButton("sure", (dialogInterface, i) -> {
+                startActivity(new Intent(requireActivity(), AuthActivity.class));
+                requireActivity().finish();
+            });
+            alertdialogbuilder.setNeutralButton("cancel", (dialogInterface, i) -> {
+                dialogInterface.dismiss();
+            });
+            final AlertDialog alertdialog1 = alertdialogbuilder.create();
+            alertdialog1.show();
         });
 
         //我的订单

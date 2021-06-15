@@ -25,6 +25,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.List;
 
+import yicheng.pan.tfm.Auth.AuthActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Main.MainViewModel;
 import yicheng.pan.tfm.Order.CourierOrderListActivity;
@@ -83,6 +84,19 @@ public class CourierMainFragment extends BaseFragment {
         binding.mainBtnScan.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), QrcActivity.class);
             startActivityForResult(intent,100);
+        });
+        binding.ivLogout.setOnClickListener(view -> {
+            AlertDialog.Builder alertdialogbuilder = new AlertDialog.Builder(requireActivity());
+            alertdialogbuilder.setMessage("Are you sure you want to log out?");
+            alertdialogbuilder.setPositiveButton("sure", (dialogInterface, i) -> {
+                startActivity(new Intent(requireActivity(), AuthActivity.class));
+                requireActivity().finish();
+            });
+            alertdialogbuilder.setNeutralButton("cancel", (dialogInterface, i) -> {
+                dialogInterface.dismiss();
+            });
+            final AlertDialog alertdialog1 = alertdialogbuilder.create();
+            alertdialog1.show();
         });
 
         return binding.getRoot();
