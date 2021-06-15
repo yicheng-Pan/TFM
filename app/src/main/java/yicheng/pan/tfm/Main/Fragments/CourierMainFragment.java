@@ -29,6 +29,7 @@ import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Main.MainViewModel;
 import yicheng.pan.tfm.Order.CourierOrderListActivity;
 import yicheng.pan.tfm.Order.NotReceiveOrderListActivity;
+import yicheng.pan.tfm.Scan.QrcActivity;
 import yicheng.pan.tfm.User;
 import yicheng.pan.tfm.databinding.FragmentCourierMainBinding;
 import yicheng.pan.tfm.databinding.FragmentMainBinding;
@@ -78,6 +79,10 @@ public class CourierMainFragment extends BaseFragment {
             intent.putExtra("user", mainViewModel.getUser());
             startActivity(intent);
 
+        });
+        binding.mainBtnScan.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), QrcActivity.class);
+            startActivityForResult(intent,100);
         });
 
         return binding.getRoot();
