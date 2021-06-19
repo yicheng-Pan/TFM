@@ -45,7 +45,6 @@ public class AddressListFragment extends BaseFragment {
     private ProgressDialog dialog;
 
     public AddressListFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -57,8 +56,6 @@ public class AddressListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         binding = FragmentAddressBinding.inflate(inflater, container, false);
         addressViewModel = new ViewModelProvider(requireActivity()).get(AddressViewModel.class);
         User user = addressViewModel.getUser();
@@ -88,7 +85,7 @@ public class AddressListFragment extends BaseFragment {
 
                 }else {
                     if (select == 1) {
-                        String data = "Name：" + addressModel.getName() + "\nNumber：" + addressModel.getPhone() + "\nAddress：" + addressModel.getAddress() + addressModel.getDetailAddress();
+                        String data = "Name：" + addressModel.getName() + "\nPhone：" + addressModel.getPhone() + "\nAddress：" + addressModel.getAddress() + addressModel.getDetailAddress();
                         Intent intent = new Intent();
                         intent.putExtra("address", data);
                         requireActivity().setResult(200, intent);
@@ -124,8 +121,15 @@ public class AddressListFragment extends BaseFragment {
                     return;
                 }
                 list.clear();
-                list.addAll(models);
-                adapter.addData(models);
+                for (int i = 0; i < models.size(); i++) {
+                    AddressModel addressModel = models.get(i);
+                    if (addressModel!=null){
+                        addressModel.setKey(i);
+                        list.add(addressModel);
+                    }
+                }
+
+                adapter.addData(list);
                 addressViewModel.setList(list);
             }
 
@@ -148,6 +152,7 @@ public class AddressListFragment extends BaseFragment {
 
         return binding.getRoot();
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

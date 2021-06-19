@@ -25,7 +25,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ItemHold
 
     public AddressAdapter(Context context, OnItemClickListner onItemClickListner) {
         this.context = context;
-        this.onItemClickListner=onItemClickListner;
+        this.onItemClickListner = onItemClickListner;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -40,7 +40,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ItemHold
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
         AddressModel addressModel = datas.get(position);
         holder.address_name.setText(addressModel.getName());
-        holder.address_address.setText(addressModel.getAddress()+addressModel.getDetailAddress());
+        holder.address_address.setText(addressModel.getAddress() + addressModel.getDetailAddress());
         holder.address_phone.setText(addressModel.getPhone());
         holder.itemView.setTag(position);
     }
@@ -52,14 +52,16 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ItemHold
 
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView address_name, address_phone, address_address;
+        private TextView address_name, address_phone, address_address, tv_delete;
 
         public ItemHolder(@NonNull View itemView) {
             super(itemView);
             address_name = itemView.findViewById(R.id.address_name);
             address_phone = itemView.findViewById(R.id.address_phone);
             address_address = itemView.findViewById(R.id.address_address);
+            tv_delete = itemView.findViewById(R.id.tv_delete);
             itemView.setOnClickListener(this::onClick);
+            tv_delete.setOnClickListener(this::onClick);
         }
 
         @Override
@@ -75,7 +77,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ItemHold
                 }
             }
 
-
         }
     }
 
@@ -86,8 +87,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ItemHold
 
     }
 
-    public interface OnItemClickListner{
-        void itemClick(int type,int position);
+    public interface OnItemClickListner {
+        void itemClick(int type, int position);
     }
 
 }
