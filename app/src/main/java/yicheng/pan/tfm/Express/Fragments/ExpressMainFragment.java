@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.view.TimePickerView;
@@ -29,11 +32,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.tools.ScreenUtils;
+import com.luck.picture.lib.tools.SdkVersionUtils;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import yicheng.pan.tfm.Adapter.GridImageAdapter;
 import yicheng.pan.tfm.Address.AddressListActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressDetailsActivity;
@@ -41,6 +55,8 @@ import yicheng.pan.tfm.Express.ExpressViewModel;
 import yicheng.pan.tfm.Model.ExpressModel;
 import yicheng.pan.tfm.R;
 import yicheng.pan.tfm.User;
+import yicheng.pan.tfm.Util.FullyGridLayoutManager;
+import yicheng.pan.tfm.Util.GlideEngine;
 import yicheng.pan.tfm.databinding.FragmentExpressMainBinding;
 
 
@@ -54,6 +70,10 @@ public class ExpressMainFragment extends BaseFragment {
     private String payType = "";
     private TimePickerView timePickerView;
     private BottomSheetDialog bottomSheetDialog;
+    private RecyclerView rv_picture_list;
+    private GridImageAdapter mAdapter;
+    private int maxSelectNum = 3;
+    private List<String> picture_list = new ArrayList<>();
 
     private int weight = 0;
     private double price = 0.00;
@@ -124,7 +144,17 @@ public class ExpressMainFragment extends BaseFragment {
         View view = View.inflate(requireActivity(), R.layout.dialog_artical_detail, null);
         bottomSheetDialog = new BottomSheetDialog(requireActivity());
         bottomSheetDialog.setContentView(view);
+       //添加图片
+        rv_picture_list = view.findViewById(R.id.rv_picture_list);
+        FullyGridLayoutManager manager = new FullyGridLayoutManager(requireActivity(),
+                4, GridLayoutManager.VERTICAL, false);
+        rv_picture_list.setLayoutManager(manager);
+        rv_picture_list.addItemDecoration(new GridSpacingItemDecoration(4,
+                ScreenUtils.dip2px(requireActivity(), 8), false));
 
+        mAdapter = new GridImageAdapter(requireActivity(), onAddPicClickListener);
+        mAdapter.setSelectMax(maxSelectNum);
+        rv_picture_list.setAdapter(mAdapter);
 
         //计算重量
         EditText et_weight = view.findViewById(R.id.et_weight);
@@ -160,21 +190,21 @@ public class ExpressMainFragment extends BaseFragment {
             String dateTime = binding.expressMainExpectedTimeValue.getText().toString().trim();
             String goodsInfo = binding.expressMainGoodInfoValue.getText().toString().trim();
             String goodsName = et_article_detail_name.getText().toString();
-            if (equals(senderInfo)) {
+            if ("Sender-Info".equals(senderInfo)) {
                 Toast.makeText(requireActivity(), "Sender info can not be null ", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (equals(addresseeInfo)) {
+            if ("Receiver-Info".equals(addresseeInfo)) {
                 Toast.makeText(requireActivity(), "Receiver info can not be null", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (equals(dateTime)) {
+            if ("Not Selected".equals(dateTime)) {
                 Toast.makeText(requireActivity(), "Expeceted Time can not be null", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (equals(goodsInfo)) {
+            if ("Not Selected".equals(goodsInfo)) {
                 Toast.makeText(requireActivity(), "Goods info can not be null", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -187,6 +217,13 @@ public class ExpressMainFragment extends BaseFragment {
             expressModel.setGoodsName(goodsName);
             expressModel.setGoodsWeight(weight);
             expressModel.setPrice(price);
+            String imgUrl = "";
+            for (int i = 0; i < picture_list.size(); i++) {
+                String s = picture_list.get(i);
+                imgUrl = "".equals(imgUrl) ? s : imgUrl + "," + s;
+            }
+            expressModel.setGoodsImgUrl(imgUrl);
+            expressModel.setExpressType("Pending");
             String strRand = "";
             for (int i = 0; i < 8; i++) {
                 strRand += String.valueOf((int) (Math.random() * 10));
@@ -299,6 +336,54 @@ public class ExpressMainFragment extends BaseFragment {
             }
         }
 
+    }
+    private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
+        @Override
+        public void onAddPicClick() {
+            PictureSelector.create(requireActivity())
+                    .openGallery(PictureMimeType.ofImage())// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                    .imageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                    .maxSelectNum(maxSelectNum)// 最大图片选择数量
+                    .minSelectNum(1)// 最小选择数量
+                    .imageSpanCount(3)// 每行显示个数
+                    .isReturnEmpty(false)// 未选择数据时点击按钮是否可以返回
+                    .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选
+                    .isPreviewImage(true)// 是否可预览图片
+                    .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                    .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg,Android Q使用PictureMimeType.PNG_Q
+                    .selectionData(mAdapter.getData())// 是否传入已选图片
+                    .forResult(new MyResultCallback(mAdapter));
+        }
+    };
+
+    /**
+     * 返回结果回调
+     */
+    private class MyResultCallback implements OnResultCallbackListener<LocalMedia> {
+        private WeakReference<GridImageAdapter> mAdapterWeakReference;
+
+        public MyResultCallback(GridImageAdapter adapter) {
+            super();
+            this.mAdapterWeakReference = new WeakReference<>(adapter);
+        }
+
+        @Override
+        public void onResult(List<LocalMedia> result) {
+            picture_list.clear();
+            for (LocalMedia media : result) {
+
+                picture_list.add(media.getPath());
+
+            }
+            if (mAdapterWeakReference.get() != null) {
+                mAdapterWeakReference.get().setList(result);
+                mAdapterWeakReference.get().notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancel() {
+        }
     }
 
 

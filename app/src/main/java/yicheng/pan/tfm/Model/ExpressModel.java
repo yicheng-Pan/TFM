@@ -103,7 +103,7 @@ public class ExpressModel implements Serializable {
         return expressType;
     }
 
-    public void setExpressType(String orderType) {
+    public void setExpressType(String expressType) {
         this.expressType = expressType;
     }
 
