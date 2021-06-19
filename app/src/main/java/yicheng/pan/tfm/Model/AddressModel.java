@@ -9,6 +9,7 @@ public class AddressModel implements Serializable{
     private String phone;
     private String address;
     private String detailAddress;
+    private int key;
 
     public AddressModel() {
     }
@@ -53,5 +54,12 @@ public class AddressModel implements Serializable{
 
     public void setDetailAddress(String detailAddress) {
         this.detailAddress = detailAddress;
+    }
+    public int getKey() {
+        return key;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
     }
 }

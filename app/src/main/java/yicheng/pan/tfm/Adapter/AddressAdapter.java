@@ -65,9 +65,16 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ItemHold
         @Override
         public void onClick(View view) {
 
-            if (onItemClickListner!=null){
-                onItemClickListner.itemClick((int) itemView.getTag());
+            if (view.getId() == R.id.tv_delete) {
+                if (onItemClickListner != null) {
+                    onItemClickListner.itemClick(1, (int) itemView.getTag());
+                }
+            }else {
+                if (onItemClickListner != null) {
+                    onItemClickListner.itemClick(2, (int) itemView.getTag());
+                }
             }
+
 
         }
     }
@@ -80,7 +87,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ItemHold
     }
 
     public interface OnItemClickListner{
-        void itemClick(int position);
+        void itemClick(int type,int position);
     }
 
 }

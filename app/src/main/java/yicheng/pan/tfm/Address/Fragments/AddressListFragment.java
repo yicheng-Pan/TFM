@@ -69,21 +69,40 @@ public class AddressListFragment extends BaseFragment {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Loading...");
         dialog.show();
-        adapter = new AddressAdapter(requireContext(), position -> {
-            if (select == 1) {
+        adapter = new AddressAdapter(requireContext(), new AddressAdapter.OnItemClickListner() {
+            @Override
+            public void itemClick(int type,int position) {
                 AddressModel addressModel = list.get(position);
-                String data = "Name：" + addressModel.getName() + "\nNumber：" + addressModel.getPhone() + "\nAddress：" + addressModel.getAddress() + addressModel.getDetailAddress();
-                Intent intent = new Intent();
-                intent.putExtra("address", data);
-                requireActivity().setResult(200, intent);
-                requireActivity().finish();
+                if (type==1){
 
-            } else {
-                Intent intent = new Intent(requireActivity(), UpdateAddressActivity.class);
-                intent.putExtra("position", position);
-                intent.putExtra("addressModel", list.get(position));
-                intent.putExtra("user", user);
-                startActivity(intent);
+                    binding.fragmentAddressList.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    binding.fragmentAddressList.setAdapter(adapter);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference();
+                    DatabaseReference dataBaseRef = myRef.child("data").child(user.getUid()).child("address").child(addressModel.getKey()+"");
+                    dataBaseRef.removeValue().addOnSuccessListener(requireActivity(), aVoid -> {
+                        list.remove(addressModel);
+                        adapter.addData(list);
+                        addressViewModel.setList(list);
+                    });
+
+                }else {
+                    if (select == 1) {
+                        String data = "Name：" + addressModel.getName() + "\nNumber：" + addressModel.getPhone() + "\nAddress：" + addressModel.getAddress() + addressModel.getDetailAddress();
+                        Intent intent = new Intent();
+                        intent.putExtra("address", data);
+                        requireActivity().setResult(200, intent);
+                        requireActivity().finish();
+
+                    } else {
+                        Intent intent = new Intent(requireActivity(), UpdateAddressActivity.class);
+                        intent.putExtra("position", position);
+                        intent.putExtra("addressModel", addressModel);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                    }
+                }
+
             }
         });
         binding.fragmentAddressList.setLayoutManager(new LinearLayoutManager(requireContext()));
