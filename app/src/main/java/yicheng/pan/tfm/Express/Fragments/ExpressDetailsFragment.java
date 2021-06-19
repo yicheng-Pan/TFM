@@ -44,6 +44,7 @@ public class ExpressDetailsFragment extends BaseFragment {
         Bitmap mBitmap = CodeUtils.createImage(expressModel.getExpressId(), 400, 400, null);
         binding.ivQrc.setImageBitmap(mBitmap);
         binding.tvGoodsName.setText("Goods-Name：" + expressModel.getGoodsName());
+        binding.tvOrderType.setText("Order-Type：" + expressModel.getExpressType());
         binding.tvOrderNo.setText("Express-Barcode：" + expressModel.getExpressId());
         binding.tvSenderInfo.setText("Sender: "+expressModel.getSenderInfo());
         binding.tvReceiveInfo.setText("Receiver: "+expressModel.getAddresseeInfo());
