@@ -10,6 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+
+import java.util.List;
+
 import yicheng.pan.tfm.Address.AddressListActivity;
 import yicheng.pan.tfm.Auth.AuthActivity;
 import yicheng.pan.tfm.BaseFragment;
@@ -44,7 +50,7 @@ public class MainFragment extends BaseFragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         binding = FragmentMainBinding.inflate(inflater, container, false);
-
+        getPermission();
         binding.mainBtnExpressSend.setOnClickListener(v -> {
              User user = mainViewModel.getUser();
             Intent intent= new Intent(this.getActivity(), ExpressActivity.class);
@@ -92,5 +98,35 @@ public class MainFragment extends BaseFragment {
             startActivity(intent);
         });
         return binding.getRoot();
+    }
+
+    /**
+     * 获取拍照和存储权限
+     */
+    private void getPermission() {
+
+        XXPermissions.with(requireActivity())
+                .permission(Permission.CAMERA)
+                .permission(Permission.Group.STORAGE)
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+                        if (all) {  //获取权限成功
+
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if (quick) {
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(requireActivity(), denied);
+                        } else {
+                        }
+                    }
+                });
     }
 }
