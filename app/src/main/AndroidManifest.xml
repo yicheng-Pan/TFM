@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="yicheng.pan.tfm">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -9,9 +15,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TFM">
-        <activity android:name=".Address.AddAddressActivity"/>
-        <activity android:name=".Address.AddressListActivity"/>
-        <activity android:name=".Address.UpdateAddressActivity"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name=".Address.AddAddressActivity" />
+        <activity android:name=".Address.AddressListActivity" />
+        <activity android:name=".Address.UpdateAddressActivity" />
         <activity android:name=".Auth.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,24 +33,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main.MainActivity"/>
-        <activity android:name=".Main.CourierMainActivity"/>
-        <activity android:name=".Express.ExpressDetailsActivity"/>
+        <activity android:name=".Main.MainActivity" />
+        <activity android:name=".Main.CourierMainActivity" />
+        <activity android:name=".Express.ExpressDetailsActivity" />
         <activity android:name=".Express.ExpressActivity" />
         <activity android:name=".Scan.QrcActivity" />
-        <activity android:name=".Order.OrderListActivity"/>
-        <activity android:name=".Order.OrderDetailsActivity"/>
-        <activity android:name=".Order.SearchOrderActivity"/>
-        <activity android:name=".Order.NotReceiveOrderListActivity"/>
-        <activity android:name=".Order.CourierOrderListActivity"/>
-        <activity android:name=".Order.AddLocationActivity"/>
+        <activity android:name=".Order.OrderListActivity" />
+        <activity android:name=".Order.OrderDetailsActivity" />
+        <activity android:name=".Order.SearchOrderActivity" />
+        <activity android:name=".Order.NotReceiveOrderListActivity" />
+        <activity android:name=".Order.CourierOrderListActivity" />
+        <activity android:name=".Order.AddLocationActivity" />
     </application>
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyAjmYDxudA_koRK3nCchs0d1bId9Xquq28" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
 </manifest>
