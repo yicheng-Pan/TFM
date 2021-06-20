@@ -19,28 +19,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng site1 = new LatLng(31.252456616123524, 121.55607343500112);
+        mMap.addMarker(new MarkerOptions().position(site1).title("SF Express"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(site1));
+
+        LatLng site2 = new LatLng(32.38523861401119, 119.64976924096521);
+        mMap.addMarker(new MarkerOptions().position(site2).title("SF Express"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(site2));
+
+        LatLng site3 = new LatLng(25.62735041315964, 113.84898808412805);
+        mMap.addMarker(new MarkerOptions().position(site3).title("SF Express"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(site3));
+
+        LatLng site4 = new LatLng(34.87303181600051, 120.7044567240265);
+        mMap.addMarker(new MarkerOptions().position(site4).title("SF Express"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(site4));
+
+        LatLng site5 = new LatLng(31.789528557226284, 120.00133173531896);
+        mMap.addMarker(new MarkerOptions().position(site5).title("SF Express"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(site5));
+
+
     }
 }
