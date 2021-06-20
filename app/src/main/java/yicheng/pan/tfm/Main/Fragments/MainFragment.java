@@ -21,6 +21,7 @@ import yicheng.pan.tfm.Auth.AuthActivity;
 import yicheng.pan.tfm.BaseFragment;
 import yicheng.pan.tfm.Express.ExpressActivity;
 import yicheng.pan.tfm.Main.MainViewModel;
+import yicheng.pan.tfm.MapsActivity;
 import yicheng.pan.tfm.Order.OrderListActivity;
 import yicheng.pan.tfm.Order.SearchOrderActivity;
 import yicheng.pan.tfm.Scan.QrcActivity;
@@ -65,6 +66,10 @@ public class MainFragment extends BaseFragment {
         });
         binding.mainBtnScan.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), QrcActivity.class);
+            startActivityForResult(intent,100);
+        });
+        binding.mainBtnServiceSite.setOnClickListener(view -> {
+            Intent intent = new Intent(requireActivity(), MapsActivity.class);
             startActivityForResult(intent,100);
         });
 
